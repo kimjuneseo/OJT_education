@@ -1,0 +1,124 @@
+강사
+  신성진
+  pxp13716@gmail.com
+
+Git
+  https://github.com/pxp13716/20220509_Vue3
+
+
+Node 설치
+  https://nodejs.org/ko/
+
+  설치확인
+    node -v
+    npm -v
+
+VSCode 설치
+  https://code.visualstudio.com/
+
+  Vue 관련 VSCode plugins
+    Vetur
+    Vue Language Features (Volar)
+    Vue 3 Snippets
+    Live Server  **
+    Bracket Pair Colorizer
+    JavaScript (ES6) code snippets
+    
+    DotENV
+    Auto Rename Tag
+    Auto Close Tag
+
+    Korean(사용법) Language Pack for Visual Studio Code
+    Material Icon Theme
+
+
+Vue 2.x
+  https://kr.vuejs.org/v2/guide/index.html
+
+Vue3.x
+  https://v3.ko.vuejs.org/guide/migration/introduction.html
+
+CDN
+  https://cdnjs.com/
+
+NPM
+  https://www.npmjs.com/
+
+
+Vue 설치
+    npm info @vue/cli   => 확인
+    npm i -g @vue/cli   => 설치 (업그레이드)
+
+설치 버전 확인
+    vue --version
+
+프로젝트 생성 - 이름은 소문자만 가능 특수문자 _, $ 가능
+    vue create [productName]
+
+프로젝트 시작
+    cd productName
+    npm run serve -> package.json 파일 참조
+
+프로젝트 빌드
+    npm run build -> package.json 파일 참조
+
+build 후 확인
+    npm i -g serve    => 모듈 설치
+
+    serve -s dist     => 확인
+
+
+VUE UI
+  vue ui
+
+
+VUE 기본 템플릿 작성
+  1. File - Preferences - User Snippets 선택
+
+  2. Vue로 검색
+    Vue.json (Vue) 선택
+
+  3. 다음과 같이 정리
+
+    {
+      // Place your snippets for vue here. Each snippet is defined under a snippet name and has a prefix, body and 
+      // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+      // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+      // same ids are connected.
+      // Example:
+      "Print to console": {
+        "prefix": "vue-basic",
+        "body": [
+          "<template>\n\t\n</template>\n\n<script>\nexport default {\n\t\n}\n</script>\n<style scoped>\n\t\n</style>\n"
+        ],
+        "description": "Vue 기본 설정"
+      }
+    }
+
+    다음 코드를 적절히 이용
+    <template>
+      <div>
+
+      </div>
+    </template>
+    <script>
+      export default {
+        name: '',
+        components: {},
+        data() {
+          return {
+            data: '',
+          }
+        },
+        setup() { },
+        methods: { },
+        created() { },
+        mounted() { },
+        unmounted() { },
+      }
+    </script>
+
+  4. 저정 후 사용
+
+
+

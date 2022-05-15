@@ -1,0 +1,75 @@
+
+npm 명령 간략 설명
+
+    1. 검색
+        npm.com에서 검색하는 것이 보기 좋다.
+        npm search moduleName
+
+    2. 상세 정보
+        npm info moduleName     => npm info jquery
+    
+    3. version 정보
+        npm info moduleName version     => npm info jquery version
+        npm info moduleName versions
+
+    4. 설치
+        npm install -g moduleName
+        npm i -g moduleName     => Global 설치
+            설치한 모듈을 어느 경로에서든지 호출할 수 있다
+        
+        npm install moduleName --save
+        npm i moduleName        => Local 설치
+            설치한 모듈은 설치 경로 내부에 node_modules라는 폴더에 설치되며 해당 경로 하위에서만 호출할 수 있다
+
+        npm install moduleName --save-dev
+        npm i [-g] -D moduleName
+            프로젝트 작성과는 상관없는 모듈을 설치하는 경우 (프로젝트 작성과는 상관 없는 모듈)
+            예] test에 관련된 모듈.
+
+        npm i jquery        => 최신 버전
+        npm i jquery@2      => 2.X의 마지막 버전 설치
+        npm i jquery@2.5    => 2.5.X의 마지막 버전 설칠
+
+    5. 삭제
+        npm un -g moduleName        npm uninstall -g moduleName
+        npm un moduleName           npm uninstall moduleName
+
+    6. 설치 모듈 정보
+        npm list moduleName
+
+
+작업하기 전에 설치할 모듈을 관리하는 파일부터 작성한다.
+    npm init
+    npm init -y                         => 아래 기본값으로 자동 작성
+
+    package name: (chap01_javascript)   => 프로젝트 명 (대문자는 사용 불가)
+    version: (1.0.0)                    => 프로젝트 버전
+    description:                        => 프로젝트 설명
+    entry point: (index.js)             => 어느 파일 기준으로 실행 할 것인가
+    test command:                       => Local에 설치된 모듈을 실행할 명령을 기술
+    git repository:                     => git address
+    keywords:                           => npm search로 검색될 단어
+    author:                             => 작성자
+    license: (ISC)                      => 저작권 관련
+
+
+필요한 모듈을 i 또는 i -D 형태로 설치
+
+설치 후 node_modules가 잘못된 경우, node_modules와 package-lock.json 삭제
+
+재 설치
+    package.json의 dependencies와 devDependencies를 재 설치해 준다
+    npm i   or      npm install
+
+명령도 등록할 수 있다
+명령의 실행은
+    npm run test
+    npm run build
+    단 start 명령은 run을 생략하고
+        npm start
+    로 실행 가능
+
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "npx babel src -d dist"
+    },

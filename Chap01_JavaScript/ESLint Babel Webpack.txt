@@ -1,0 +1,141 @@
+
+eslint
+    https://eslint.org/
+    https://github.com/eslint/eslint
+    https://eslint.org/docs/rules/
+    
+
+    1. 설치
+        npm i -D eslint@7 @eslint/create-config eslint-config-airbnb eslint-config-google
+
+    2. eslint init
+        npx exlint --init               답변에 따라 설정
+        npx eslint A01_Variable.js      검사 실행
+            “eslint:recommended”는 rules page에 있는 체크표시된 모든 규칙들을 활성화.
+            참조] https://eslint.org/docs/rules/
+
+            ESLint에는 수정 가능한 규칙과 불가능한 규칙이 있다. 렌치표시(🔧)가 붙은 것은 --fix옵션으로 자동 수정할 수 있는 규칙
+
+            “no-extra-semi”는 규칙 이름이고 규칙에 설정하는 값은 3가지로 나뉜다.
+                "off" 또는 0 : 끔
+                "warn" 또는 1 : 경고
+                "error" 또는 2 : 오류
+
+        Airbnb ESLint에는 eslint-config-airbnb와 eslint-config-airbnb-base가 있음.
+        base는 관련 규칙을 포함하지 않는 것이다. base로 설치하려면 아래 명령어에서 airbnb 뒤에 -base 를 붙인다.
+
+        $ npm info "eslint-config-airbnb@latest"    확인
+        $ npx i -D eslint-config-airbnb             설치 
+
+        .eslintre.json에 추가
+            "extends": [
+                "airbnb", 
+                "eslint:recommended",
+            ],
+
+
+    3. eslint를 이용한 검사
+        npx eslint fileName
+        npx eslint fileName --fix
+
+
+
+prettier
+    https://prettier.io/
+    https://github.com/prettier/prettier
+
+
+    1. prettier 설치
+        npm i -D prettier eslint-config-prettier eslint-plugin-prettier
+
+        eslint 설정 파일 수정
+        "extends": [
+                "google",
+                "eslint:recommended",
+                "prettier"
+            ],
+            ...
+            "rules": {
+                "prettier/prettier": "error",
+                "no-unused-vars": "off"
+            },
+            "plugins": [
+                "prettier"
+            ],
+
+    2. prettierrc
+        {
+            "arrowParens": "avoid", // 화살표 함수 괄호 사용 방식
+            "bracketSpacing": false, // 객체 리터럴에서 괄호에 공백 삽입 여부 
+            "endOfLine": "auto", // EoF 방식, OS별로 처리 방식이 다름 
+            "htmlWhitespaceSensitivity": "css", // HTML 공백 감도 설정
+            "jsxBracketSameLine": false, // JSX의 마지막 `>`를 다음 줄로 내릴지 여부 
+            "jsxSingleQuote": false, // JSX에 singe 쿼테이션 사용 여부
+            "printWidth": 80, //  줄 바꿈 할 폭 길이
+            "proseWrap": "preserve", // markdown 텍스트의 줄바꿈 방식 (v1.8.2)
+            "quoteProps": "as-needed", // 객체 속성에 쿼테이션 적용 방식
+            "semi": true, // 세미콜론 사용 여부
+            "singleQuote": true, // single 쿼테이션 사용 여부
+            "tabWidth": 2, // 탭 너비 
+            "trailingComma": "all", // 여러 줄을 사용할 때, 후행 콤마 사용 방식
+            "useTabs": false, // 탭 사용 여부
+            "vueIndentScriptAndStyle": true, // Vue 파일의 script와 style 태그의 들여쓰기 여부 (v1.19.0)
+            "parser": '', // 사용할 parser를 지정, 자동으로 지정됨
+            "filepath": '', // parser를 유추할 수 있는 파일을 지정
+            "rangeStart": 0, // 포맷팅을 부분 적용할 파일의 시작 라인 지정
+            "rangeEnd": Infinity, // 포맷팅 부분 적용할 파일의 끝 라인 지정,
+            "requirePragma": false, // 파일 상단에 미리 정의된 주석을 작성하고 Pragma로 포맷팅 사용 여부 지정 (v1.8.0)
+            "insertPragma": false, // 미리 정의된 @format marker의 사용 여부 (v1.8.0)
+            "overrides": [ 
+            {
+                "files": "*.json",
+                "options": {
+                "printWidth": 200
+                }
+            }
+            ], // 특정 파일별로 옵션을 다르게 지정함, ESLint 방식 사용
+        }
+
+    3. 실행
+        npx eslint filename --fix
+
+
+
+Babel
+    https://babeljs.io/
+
+    1. 설치 v7
+        npm i -D @babel/cli @babel/core
+
+    2. Babel 변환 모듈 설치
+        npm i -D @babel/preset-env
+
+    3. Babel 변환
+        npx babel filename -d 출력파일경로
+        npx babel filename -d 출력파일경로 --presets @babel/preset-env
+
+    4. Babel 설정파일 작성 - .babelrc
+        {
+            "presets": [
+                "@babel/preset-env"
+            ]
+        }
+
+    5. 실행
+        npx babel src -d dist
+
+
+
+Webpack 
+    https://webpack.js.org/
+
+    1. 설치 
+        npm i -D webpack webpack-cli @webpack-cli/generators
+
+    2. 설정파일 작성
+        npx webpack-cli init
+            필요한 사항 선택
+
+    3. 실행
+        npm run build           package.json 파일 참조
+
