@@ -17,11 +17,11 @@ VSCode 설치
   https://code.visualstudio.com/
 
   Vue 관련 VSCode plugins
-    Vetur
+    Vetur **
     Vue Language Features (Volar)
     Vue 3 Snippets
     Live Server  **
-    Bracket Pair Colorizer
+    Bracket Pair Colorizer **
     JavaScript (ES6) code snippets
     
     DotENV
