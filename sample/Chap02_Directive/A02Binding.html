@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/bootstrap@5.1.3/dist/css/bootstrap.min.css">
   <title>A02 Binding</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.33/vue.global.min.js" integrity="sha512-nswZG83l1MggaGEAe/zLIbsVpZJUyqv+yg40f2CNp9QH5AOtOsjS4PSdWRDEr/v+R6YPhNJ1gvhDEJDOqh5qxQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
   <div id="app" class="card-body">
@@ -17,45 +18,77 @@
     <div id="one">
       <h5>1. 일반적 바인딩</h5>
       일반적인 단방향 바인딩: {{name}}<br>
-      함수의 리턴값: {{onAdd(10, 20)}}<br>
-      함수의 리턴값: {{onMin(10, 20)}}<br>
-      배열: <br>
-      객체: <br>
+      함수의 리턴값: {{onAdd(10,5)}}<br>
+      함수의 리턴값: {{onMin(10,5)}}<br>
+      배열: {{arr[0]}} / {{arr[1]}} / {{arr[2]}}<br>
+      객체: {{user.name}} / {{user.age}} / {{user.address}}<br>
     </div>
     <br>
 
     <div>
       <h5>2. 바인딩 연산</h5>
-      일반적 연산: <br>
-      속성 참조: <br>
-      속성 참조 연산: <br>
-      비교 연산: <br>
-      비교 연산: <br>
-      삼항 연산: <br>
+      일반적 연산: {{10 + 20}}<br>
+      속성 참조: {{ arr.length}}<br>
+      속성 참조 연산: {{ arr.length*100 }}<br>
+      비교 연산: {{name == 'Nolbu'}}<br>
+      비교 연산: {{arr[0] > 10 && arr[1] > 10}}<br>
+      <!-- 삼항 연산: {{name === 'Nolbu ? '관리자' : '일반 유저'}}<br> -->
     </div>
     <br>
 
     <div>
       <h5>3. 바인딩 관련 지시자</h5>
-      v-text: <span></span><br>
-      v-html: <span></span><br>
-      v-once: <span></span><br>
-      v-pre: <span></span><br>
+      바인딩: {{text}}<br>
+      v-text: <span v-text="text">이 값은 무시됨(지워짐)</span><br>
+      v-html: <span v-html="text">지시자의 값은 항상 변수다</span><br>
+
+      <!-- 처음 1번 바인딩 된 후에 대상 값이 변경되어도 값이 변경되지 않도록 처리 -->
+      v-once: <span v-once>{{text}}</span><br>
+      <!-- {{}}가 바인딩 식이 아닌 일반 텍스트로 인식하도록 처리 -->
+      v-pre: <span v-pre>{{text}}</span><br>
       <br>
-      <button>Change</button>
-      <button>Change</button>
+      <button v-on:click="changText('Good Afternoon')">Change</button>
+      <button @click="changText('Good Evening')">Change</button>
       <br>
     </div>
 
     <div>
-      Data에 존재하지 않는 변수: 
-      Data에 존재하지 않는 객체: 
+      CLI에서는 에러
+      Data에 존재하지 않는 변수: {{age}}<br>
+      Data에 존재하지 않는 객체: {{obj && obj.name}}
     </div>
     <br>
   </div>
 
   <script>
-    
+      const app = Vue.createApp({
+        // 반응형 변수만 정의 - 변수의 값을 변경되면 화면(view)는 변경된 값으로 자동 갱신된다
+        data: function(){
+          return{
+            name: 'NolBu',
+            arr: [10,20],
+            user: {name: 'HunBu', age:20},
+            text: '<b>Good Morning</b>',
+          }
+        },
+        // 함수. 명령의 집합, 이벤트 등에서 호출된 함수를 정의한다
+        // return 값의 있다면 VIEW의 바인딩 값으로 사용가능
+        methods : {
+          onAdd:function(x, y){
+            console.log(this);
+            return `${x} + ${y} = ${x + y} - ${this.name}`
+          },
+          onMin: (x, y) => {
+            console.log(this);
+            return `${x} + ${y} = ${x - y}`
+          },
+          changText: function(msg){
+              this.text = '<b><i>' + msg + '</i></b>'
+          }
+      
+        }
+      }).mount('#app');
+
   </script>
 </body>
 </html>

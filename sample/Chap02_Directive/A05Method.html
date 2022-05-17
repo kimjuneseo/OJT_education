@@ -17,16 +17,19 @@
       onAdd: {{onAdd(10, 20)}}<br>
       <br>
       Name: {{name}}
-      <input type="text" name="name" class="form-control" :value="name">
+      <input type="text" name="name" class="form-control" 
+        :value="name" @input="changeValue">
       Num: {{num}}
-      <input type="text" name="num" class="form-control" :value="num">
+      <input type="text" name="num" class="form-control" 
+      :value="num" @input="changeValue">
     </div>
     <br>
 
     <div>
       <h5>2. Computed</h5>
-      Computed: <br>
-      Methods: <br>
+      total:{{total()}} <br>
+      Counter: {{cnt}}<br>  <!-- 메서드지만 속성 형태로 참조-->
+      Counter: {{compTotal}}<br>  <!-- 메서드지만 속성 형태로 참조-->
     </div>
   </div>
 
@@ -41,7 +44,35 @@
       },
       methods: {
         onAdd: (x, y) => `${x} + ${y} = ${x + y}`,
-
+        changeName(evt){
+          this.name = evt.target.value;
+        },
+        changeValue(evt){
+          this[evt.target.name] = evt.target.value;
+        },
+        total(){
+          console.log('total...')
+          let total = 0;
+          for(let i = 1; i <= this.num; i++){
+            total +=i
+          }
+          return total;
+        }
+      },
+      // 계산된 속성. 정의는 메서드 형식이지만 참조 형태로 한다() 안친다
+      // 함수 내부에서 THIS로 참조한 값이 없으면 화면이 갱신되도 재 호출되지 않느다
+      // 함수 내부에서 this로 참조할 값이 변경된 경우만 재 호출된다.
+      // 위의 data에 정듸된 값을 기반으로 새로운 값을 산출해서 사용해야 하는 경우도 사용
+      computed:{
+        cnt: () => 100,
+        compTotal(){
+          console.log('compTotal...')
+          let total = 0;
+          for(let i = 1; i <= this.num; i++){
+            total +=i
+          }
+          return total;
+        }
       }
     }).mount('#app')
   </script>

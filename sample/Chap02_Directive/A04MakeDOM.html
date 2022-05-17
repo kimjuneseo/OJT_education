@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,25 +8,27 @@
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/bootstrap@5.1.3/dist/css/bootstrap.min.css">
   <title>A04 DOM Directive</title>
 </head>
+
 <body>
   <div class="card-body" id="app">
     <h3>A03 DOM Directive</h3>
     <br>
 
     <h5>1. v-show</h5>
-    <div>
+    <div v-show="isCheked">
       v-show가 있는 엘리먼트는 항상 렌더링 되고 DOM에 남아있다는 점입니다. v-show는 단순히 엘리먼트에 display CSS 속성을 토글합니다.
     </div>
     <br />
 
     <h5>2. v-if</h5>
-    <div>
+    <div v-if="name == 'nolbu'">
       Vue에서는 v-if 디렉티브를 사용하여 조건부 블럭을 작성할 수 있습니다.
+      이 3개의 블럭은 붙어 기술해야 한다
     </div>
-    <div>
+    <div v-else-if="name == 'Hungbu'">
       v-else-if는 이름에서 알 수 있듯, v-if에 대한 “else if 블록” 역할을 합니다. 또한 여러 개를 사용할 수 있습니다.
     </div>
-    <div>
+    <div v-else>
       v-else 디렉티브를 사용하여 v-if에 대한 “else 블록”을 나타낼 수 있습니다
     </div>
     <br>
@@ -42,41 +45,69 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
+        <!-- for(let index = 0; index < students.length; index++){ 
+            const item = students[index];
+          -->
+        <template v-for="(item,index) in students">
+          <tr v-if="item.kor>=90">
+            <td>{{index + 1}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.age}}</td>
+            <td>{{item.kor}}</td>
+            <td>{{item.eng}}</td>
+          </tr>
+        </template>
+        <!-- } -->
       </tbody>
     </table>
     <br>
+    <ul>
+      <li v-for="item in 3">{{item}}</li>
+    </ul>
+    <ul>
+      <li v-for="item in arr">{{item}}</li>
+    </ul>
+    <ul>
+      <li v-for="(value,key,i) in user">{{i + 1}} - {{key}} /{{value}}</li>
+    </ul>
 
     <div>
-      <button class="btn btn-outline-primary btn-sm" >Check</button>
-      <button class="btn btn-outline-primary btn-sm" >IF</button>
-      <button class="btn btn-outline-primary btn-sm" >Else IF</button>
-      <button class="btn btn-outline-primary btn-sm" >Else</button><br>
+      <button class="btn btn-outline-primary btn-sm" @click="changeCheked">Check</button>
+      <button class="btn btn-outline-primary btn-sm" @click="changeName('nolbu')">IF</button>
+      <button class="btn btn-outline-primary btn-sm" @click="changeName('Hungbu')">Else IF</button>
+      <button class="btn btn-outline-primary btn-sm" @click="changeName('abc')">Else</button><br>
     </div>
-</div>
+  </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.32/vue.global.js"></script>
-<script>
-  const model = {
-    students: [
-      { name: 'HongGilDong', age: 20, kor: 100, eng: 80 },
-      { name: 'NolBu', age: 50, kor: 90, eng: 90 },
-      { name: 'HungBu', age: 40, kor: 70, eng: 60 },
-    ]
-  }
-  Vue.createApp({
-    data() {
-      return {
-        
-      }
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.32/vue.global.js"></script>
+  <script>
+    const model = {
+      students: [
+        {name: 'HongGilDong',age: 20,kor: 100,eng: 80},
+        {name: 'NolBu',age: 50,kor: 90,eng: 90},
+        {name: 'HungBu',age: 40,kor: 70,eng: 60},
+      ]
     }
-  }).mount('#app');
-</script>
+    Vue.createApp({
+      data() {
+        return {
+          isCheked: true,
+          name: 'nolbu',
+          students: model.students,
+          arr: [10,20,30],
+          user:{name: 'HungBu',age: 40,kor: 70,eng: 60},
+        }
+      },
+      methods: {
+        changeCheked() {
+          this.isCheked = !this.isCheked;
+        },
+        changeName(name) {
+          this.name = name;
+        }
+      }
+    }).mount('#app');
+  </script>
 </body>
+
 </html>

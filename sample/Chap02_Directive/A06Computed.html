@@ -10,12 +10,16 @@
 <body>
 
   <div class="card-body" id="app">
-    <h3>A05 Computed</h3>
+    <h3>A06 Computed //{{data.countryname}}</h3>
 
     <div class="input-group">
-      <input type="text" name="searc" class="form-control">
+      <!-- <input type="text" name="searc" class="form-control" v-model="data.countryname"> -->
+      <!-- ref => document.getElementBtId(searchRef) -->
+      <input type="text" name="searc" class="form-control" 
+        ref="searchRef">
+      
       <div class="input-group-append">
-        <button class="btn btn-primary">SEARCH</button>
+        <button class="btn btn-primary" @click="changeValue">SEARCH</button>
       </div>
     </div>
     <br>
@@ -26,11 +30,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+        <tr v-for="item in searchData">
+          <td>{{item.no}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.capital}}</td>
+          <td>{{item.region}}</td>
         </tr>
       </tbody>
   </table>
@@ -61,7 +65,22 @@
   }
 
   Vue.createApp({
-
+    data(){
+      return {
+        data: model,
+      }
+    },
+    methods:{
+      changeValue(){
+          console.log(this.$refs)
+          this.data.countryname  = this.$refs.searchRef.value;
+      },
+    },
+    computed:{
+      searchData(){
+          return this.data.countries.filter(item => item.name.includes(this.data.countryname))
+      }
+    }
   }).mount('#app')
 </script>
 </body>

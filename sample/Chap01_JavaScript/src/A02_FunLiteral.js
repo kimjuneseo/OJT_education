@@ -22,5 +22,8 @@
 
     // ES6. Function
     
+    const user = 'admin';
+    console.log(`방문하신 분은 ${user}`);
 
+    
 })();
