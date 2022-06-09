@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+  <style rel="stylesheet" type="text/css">
+    #container { width: 300px; height: 150px; border: 1px solid gray; display: flex; justify-content: center; align-items: center;}
+    #inner { width: 100px; height: 100px; background: orange; padding: 10px; margin: 10px; text-align: center; display: flex; justify-content: center; align-items: center;}
+  </style>
+  <title>A09 Event</title>
+</head>
+<body>
+
+  <div id="app" class="card-body">
+    <h3>A08 Event</h3>
+
+    Num: {{num}}<br>
+    <button   v-on:click="num = num + 2">+1</button>
+    <button   v-on:click="decrease()">-1</button>
+    <button   v-on:click.once="decrease">once</button>
+    
+    <!-- shift, alt, ctrl, meta / left, middle, right-->
+    <button   v-on:click.shift="decrease">Key</button>
+
+    <!-- 일반 값만 매개변수로 전달되는 경우. => 일반 함수의 매개변수 전달과 동일 -->
+    <button   @click="increase(3)">Event</button>
+
+    <!-- Event 객체와 다른 값이 동시에 전달되어야 하는 경우 -->
+    <button   @click="increaseEvent(4, $event)">Event</button>
+    <button   @click="(evt) => increaseEvent(5, evt)">Event</button>
+    <br>
+    <br>
+    
+    <div id="container"   @click="outer">
+    <div id="inner"       @click="innerOne">ONE</div>
+    <div id="inner"       @click.stop="innerTwo">TWO</div>
+    </div>
+    <br>
+    <br>
+
+    <div>
+        <a href="http://www.daum.net"     @click="daum">DAUM</a> |
+        <a href="http://www.naver.com"    @click.prevent="naver">NAVER</a> |
+    </div>
+    <br>
+
+    <input type="text" class="form-control"   @keyup="keyUpEvent"><br>
+    <input type="text" class="form-control"   @keydown.shift.a="keyUpEventOne"><br>
+
+    esc: <input type="text" class="form-control"    
+        v-model="name"  @keyup.esc="escEvent"/><br>
+    Enter: <input type="text" class="form-control"  
+        v-model="msg"   @keyup.enter="enterEvent"/><br>
+
+</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.32/vue.global.js"></script>
+  <script>
+    Vue.createApp({
+      data() {
+        return {
+          num: 0,
+          name: 'Guest',
+          msg: ''
+        }
+      },
+      methods: {
+        decrease: function() {
+          this.num--;
+        },
+        increase: function(num) {
+          this.num = this.num + num;
+        },
+        increaseEvent: function(num, evt) {
+          this.num = this.num + num;
+          console.log(evt.target);
+        },
+        outer(evt) {
+          console.log('outer=> ', evt.target, evt.currentTarget);
+        },
+        innerOne(evt) {
+          console.log('one=> ', evt.target, evt.currentTarget);
+          if (true) {
+            evt.stopPropagation();    // bubbling 단계의 모든 click 이벤트 취소
+          }
+        },
+        innerTwo(evt) {
+          console.log('two=> ', evt.target, evt.currentTarget);
+        },
+        daum(evt) {
+          console.log(evt.target);
+          evt.preventDefault();     // 태그가 가지고 있는 내장 자바스크립트 명령을 취소
+        },
+        naver(evt) {
+          console.log(evt.target);
+        },
+        keyUpEvent(evt) {
+          console.log('code: ', evt.code);
+          console.log('key: ', evt.key);
+          console.log('keyCode: ', evt.keyCode);
+          console.log(evt.shiftKey, evt.altKey, evt.ctrlKey, evt.metaKey);
+          // console.log(evt);
+
+          // if(evt.keyCode === 27) evt.target.value = '';
+          if(evt.keyCode === 65 && evt.shiftKey) {
+            location.assign('http://www.daum.net');
+          }
+        },
+        keyUpEventOne(evt) {
+          location.assign('http://www.daum.net');
+        },
+        escEvent(evt) {
+          evt.target.value = '';
+        },
+        enterEvent(evt) {
+          if (evt.target.value.length < 10) {
+            alert('10글자 이상 입력해 주세요')
+          }
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>JavaScript Event</h1>
+
+        <button name="button 01"    onclick="console.log('btn01 clicked');">Btn 01</button>
+        <button name="button 02"    onclick="btn02Event(event)">Btn 02</button>
+        <button name="button 03" id="btn03">Btn 03</button>
+        <button name="button 04" id="btn04">Btn 04</button>
+    </div>
+
+    <script type="text/javascript">
+        function btn02Event(evt) {
+            console.log('btn02 clicked', evt.target);
+        }
+
+        const btn03 = document.getElementById('btn03');
+        btn03.addEventListener('click', function(evt){
+            console.log('btn03 clicked', evt.target);
+        });
+
+        // 내부 함수에는 오로지 event객체 1개만 매개변수로 전달한다. 다른 값 전달 불가
+        document.getElementById('btn04').addEventListener('click', (evt) => {
+            // console.log('btn04 clicked', evt.target);
+            showColor('orange', evt);
+        });
+
+        function showColor(color, evt) {
+            console.log('btn04 clicked', color, evt.target);
+        }
+    </script>
+</body>
+</html>

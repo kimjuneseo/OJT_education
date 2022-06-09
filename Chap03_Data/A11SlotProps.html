@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+  <title>A11 Slot Props</title>
+</head>
+<body>
+  <div class="card-body" id="app">
+    <h3>A11 Slot Props</h3>
+
+    <hr>
+
+    <!-- 자식 컴퍼넌트의 데이터를 상위 컴퍼넌트에서 출력. slot props라 한다. 3.0 부터는 사용 할 수 없음 
+    <comp-one>
+        DATA: {{obj.tel}} / {{obj.address}}<br>
+
+        <template name="default" slot-scope="one">
+            <h5>slot-scope</h5>
+            Kor: {{one.kor}}, Eng: {{one.eng}}, Total: {{one.kor + one.eng}}<br>
+            Person: {{one.person.name}} / {{one.person.age}}
+        </template>
+    </comp-one>
+    -->
+
+    <comp-one>
+      <!-- 디스트럭처링 -->
+      <template #jumsu="{kor, eng, user, changeKor}">
+        Object: {{obj.tel}} / {{obj.address}}<br>
+        Kor: {{kor}}, Eng: {{eng}}, User: {{user.name}} / {{user.address}}<br>
+        <button   @click="changeKor(200)">KOR</button>
+      </template>
+    </comp-one>
+    <br>
+
+    <comp-one>
+      <!-- v-slot을 #으로 대체 가능 -->
+      <template #jumsu="one">
+        Object: {{obj.tel}} / {{obj.address}}<br>
+        Kor: {{one.kor}}, Eng: {{one.eng}}, User: {{one.user.name}} / {{one.user.address}}<br>
+        <button   @click="one.changeKor(200)">KOR</button>
+      </template>
+    </comp-one>
+    <br>
+
+    <comp-one>
+      <!-- slot에 이름이 있으면 default => slot 이름으로 변경 -->
+      <template v-slot:jumsu="one">
+        Object: {{obj.tel}} / {{obj.address}}<br>
+        Kor: {{one.kor}}, Eng: {{one.eng}}, User: {{one.user.name}} / {{one.user.address}}<br>
+        <button   @click="one.changeKor(200)">KOR</button>
+      </template>
+    </comp-one>
+    <br>
+
+    <comp-one>
+      <!-- one 변수는 slot에서 속성으로 전달한 값을 저장하고 있는 객체 명 
+        one = {
+          kor: 전달된 kor 값,
+          eng: 전달된 eng 값,
+          ...
+        }
+      -->
+      <template v-slot:default="one">
+        Object: {{obj.tel}} / {{obj.address}}<br>
+        Kor: {{one.kor}}, Eng: {{one.eng}}, User: {{one.user.name}} / {{one.user.address}}<br>
+        <button   @click="one.changeKor(200)">KOR</button>
+      </template>
+    </comp-one>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.32/vue.global.js"></script>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          obj: {tel: '010-1234-5678', address: 'Seoul'}
+        }
+      }
+    });
+
+    app.component('CompOne', {
+      template:`
+        <div>
+          <h5>A11 Scoped Slot</h5>
+          <div>
+            자식 컴퍼넌트의 데이터를 부모 컴퍼넌트에서 조작.
+          </div>
+
+          <div>
+            <input type="text" class="form-control" v-model.number="kor">
+            <input type="text" class="form-control" v-model.number="eng">
+          </div>
+
+          <slot nick="놀부" :kor="kor" :eng="eng" :user="user" :change-kor="changeKor"></slot>
+
+          <slot name="jumsu"  
+              nick="놀부" :kor="kor" :eng="eng" :user="user" :change-kor="changeKor"></slot>
+          
+        </div>
+      `,
+      data() {
+        return {
+          kor: 90,
+          eng: 70,
+          user: {name: 'HungBu', age: 20, address: 'Busan'},
+        }
+      },
+      methods: {
+        changeKor(kor) {
+          this.kor = kor;
+        }
+      }
+    })
+
+    app.mount('#app')
+  </script>
+</body>
+</html>
+

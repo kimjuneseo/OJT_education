@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+  <title>A05 Method</title>
+</head>
+<body>
+
+  <div class="card-body" id="app">
+    <h3>A04 Method</h3>
+
+    <div>
+      <h5>1. Method</h5>
+      onAdd: {{onAdd(10, 20)}}<br>
+      <br>
+      Name: {{name}}
+      <input type="text" name="name" class="form-control"   
+                    :value="name"   v-on:input="changeValue">
+      Num: {{num}}
+      <input type="text" name="num" class="form-control"    
+                    :value="num"    @input="changeValue">
+    </div>
+    <br>
+
+    <div>
+      <h5>2. Computed</h5>
+      total: {{total()}}<br>
+      <br>
+      Counter: {{cnt}}<br>    <!-- 메서드지만 속성 형태로 참조 -->
+      compTotal: {{compTotal}}<br>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.32/vue.global.js"></script>
+  <script>
+    Vue.createApp({
+      data() {
+        return {
+          name: 'NolBu',
+          num: 10 
+        }
+      },
+      methods: {
+        // Arrow는 내부적으로 this를 사용하지 않는다면 큰 문제 없음
+        onAdd: (x, y) => `${x} + ${y} = ${x + y}`,
+        changeName(evt) {
+          this.name = evt.target.value;
+        },
+        changeValue(evt) {
+          this[evt.target.name] = evt.target.value
+        },
+        total() {
+          console.log('total...');
+          let total = 0;
+          for(let i = 1; i <= this.num; i++) {
+            total += i;
+          }
+          return total;
+        }
+      },
+      // 계산된 속성. 정의는 메서드 형식이지만 참조는 속성 형태로 한다 () 안친다
+      // 함수 내부에서 THIS로 참조한 값이 없으면 화면이 갱신되도 재 호출되지 않는다
+      // 함수 내부에서 this로 참조한 값이 변경된 경우만 재 호출된다.
+      // 위의 data에 정의된 값을 기반으로 새로운 값을 산출해서 사용해야 하는 경우도 사용
+      computed: {
+        cnt: () => 100,
+        compTotal() {
+          console.log('compTotal...');
+          let total = 0;
+          for(let i = 1; i <= this.num; i++) {
+            total += i;
+          }
+          return total;
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+</html>

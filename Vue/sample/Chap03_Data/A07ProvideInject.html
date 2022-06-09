@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+  <title>A07 Provide & Inject</title>
+</head>
+<body>
+  <div class="card-body" id="app">
+    <h3>A06 TodoList</h3>
+
+    <div>
+      계층과는 상관없이 App 전체에서 공유 할 정보가 있다면 Vuex<br>
+      계층 Tree 내부에서만 이용한다면 Provide / Inject<br>
+      Component가 특정 계층에서만 사용한다면 Provide / Inject
+    </div>
+    <br>
+
+    Name: {{name}}<br>
+    User: {{user.name}} / {{user.age}}<br>
+    
+    <button @click="changeName">Name</button>
+    <button @click="changeUser">User</button><br>
+    <br>
+
+    <div>
+      <parent-comp></parent-comp>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.32/vue.global.js"></script>
+  <script>
+    const app = Vue.createApp({
+      data(){
+        return {
+          name: 'NolBu',
+          user: { name: '흥부', age: 20 }
+        }
+      },
+      methods: {
+        changeName() {
+          this.name = 'HungBu';
+        },
+        changeUser() {
+          this.user.name = 'BangJa',
+          this.user.age = 100;
+        }
+      },
+      
+    });
+
+    app.component('parentComp', {
+      template: `
+        <div>
+          <h5>A07 Parent Component</h5>
+
+          <child-one></child-one>
+          <child-two></child-two>
+        </div>
+      `
+    });
+
+    app.component('childOne', {
+      template: `
+        <div>
+          <h5>A07 Child One Component</h5>
+        </div>
+      `
+    });
+
+    app.component('childTwo', {
+      template: `
+        <div>
+          <h5>A07 Child Two Component</h5>
+        </div>
+      `
+    })
+
+
+    app.mount('#app');
+  </script>
+</body>
+</html>
+
+
+<!--
+  provide() {
+    const appData = {};
+    /*
+    Object.defineProperty(appData, 'name', {
+      enumerable: true,
+      get: () => this.name
+    });
+    Object.defineProperty(appData, 'user', {
+      enumerable: true,
+      get: () => this.user
+    })
+    */
+    Object.defineProperties(appData, {
+      name: { enumerable: true, get: () => this.name },
+      user: { enumerable: true, get: () => this.user },
+    })
+    
+    return {
+      appData: appData,
+      changeName: this.changeName,
+      changeObject: this.changeObject
+    }
+  }
+-->

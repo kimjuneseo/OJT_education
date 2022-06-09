@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+  <title>A01 Composition</title>
+</head>
+<body>
+  <div class="card-body" id="app">
+    <h3>{{title}}</h3>
+    
+    <div>
+      Ref 변수의 값을 사용하는 경우 묵시적으로 unwrap 하여 표시한다.<br>
+      <br>
+
+      Name: {{name}}<br>
+      Age: {{age}}<br>
+      Title: {{initTitle}}<br>
+      Array: <span v-for="item in arr">{{item}} &nbsp;</span><br>
+      User: {{user.name}} / {{user.age}} / {{user.address}}<br>
+      <br>
+
+      <button   @click="changeName">Name</button>
+      <button   @click="changeAge(100)">Age</button>
+      <button   @click="changeRefAge">Ref Age</button>
+      <button   @click="changeTitle">Title</button>
+      <br>
+      
+      <button   @click="addArray">Add Array</button>
+      <button   @click="updateArray(0, 200)">Update Array</button>
+      <button   @click="deleteArray(0)">Delete Array</button>
+      <br>
+
+      <button   @click="addObject('address', 'Seoul')">Add Object</button>
+      <button   @click="updateObject('address', 'Busan')">Update Object</button>
+      <button   @click="deleteObject('address')">Delete Object</button>
+
+    </div>
+    <br>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.32/vue.global.js"></script>
+  <script>
+    const app = Vue.createApp({
+      props: ['title'],
+      setup(props){
+        const name = Vue.ref('NolBu');
+        const changeName = () => name.value = 'HungBu';
+
+        const state = Vue.reactive({
+          age: 20,
+          initTitle: props.title,
+          arr: [10, 20],
+          user: {name: 'HungBu', age: 20}
+        });
+
+        // 선언 확인
+        console.log(Vue.isRef(name));     // true
+        console.log(Vue.isRef(state));    // false
+
+        console.log(Vue.isReactive(name));     // false
+        console.log(Vue.isReactive(state));    // true
+        console.log('');
+
+        // reactive에서 하나 이상의 ref 객체로 값을 추출
+        const age = Vue.toRef(state, 'age');
+        const {initTitle, arr} = Vue.toRefs(state);
+
+        console.log(Vue.isRef(age));
+        console.log(Vue.isRef(initTitle));
+        console.log(Vue.isRef(arr));
+
+        // ref 객체이므로 value 붙여야 한다.
+        const changeRefAge = () => age.value = 1000;
+
+
+        const changeAge = (num) => state.age = 300;
+        const changeTitle = () => state.initTitle = 'Hello World';
+
+        const addArray = () => {
+          const random = Math.ceil( Math.random() * 100 );
+          state.arr.push(random);
+        }
+        const updateArray = (index, value) => state.arr[index] = value;
+        const deleteArray = (index) => state.arr.splice(index, 1);
+
+        const addObject = (key, value) => state.user[key] = value;
+        const updateObject = (key, value) => state.user[key] = value;
+        const deleteObject = (key) => delete state.user[key];
+
+        return {
+          // ...state => age, initTitle, arr, user
+          name, changeName, ...Vue.toRefs(state),
+          changeAge, changeTitle, changeRefAge, 
+          addArray, updateArray, deleteArray, addObject, updateObject, deleteObject
+        }
+      }
+    }, {
+      title: 'A03 ToRef'
+    });
+    app.mount('#app');
+  </script>
+</body>
+</html>
